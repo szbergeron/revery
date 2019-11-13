@@ -286,11 +286,12 @@ let render = (w: t) => {
 let _handleEvent = (sdlEvent: Sdl2.Event.t, v: t) => {
   switch (sdlEvent) {
   | Sdl2.Event.MouseWheel({deltaX, deltaY, _}) =>
+    log("%%% Mousewheel");
     let wheelEvent: Events.mouseWheelEvent = {
       deltaX: float_of_int(deltaX),
       deltaY: float_of_int(deltaY),
     };
-    //Event.dispatch(v.onMouseWheel, wheelEvent);
+    Event.dispatch(v.onMouseWheel, wheelEvent);
   | Sdl2.Event.MousePan({deltaX, deltaY, _}) =>
     log("====Pan of " ++ string_of_int(deltaX) ++ ", " ++ string_of_int(deltaY));
     let wheelEvent: Events.mouseWheelEvent = {
