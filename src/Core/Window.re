@@ -293,8 +293,8 @@ let _handleEvent = (sdlEvent: Sdl2.Event.t, v: t) => {
     Event.dispatch(v.onMouseWheel, wheelEvent);
   | Sdl2.Event.MousePan({deltaX, deltaY, _}) =>
     let wheelEvent: Events.mouseWheelEvent = {
-      deltaX: (-1.0) *. (float_of_int(deltaX) /. 3000.0),
-      deltaY: (-1.0) *. (float_of_int(deltaY) /. 3000.0),
+      deltaX: (-1.0) *. (float_of_int(deltaX) /. 7000.0),
+      deltaY: (-1.0) *. (float_of_int(deltaY) /. 7000.0),
     };
     Event.dispatch(v.onMouseWheel, wheelEvent);
   | Sdl2.Event.MousePan({deltaX, deltaY, _}) =>
