@@ -286,14 +286,12 @@ let render = (w: t) => {
 let _handleEvent = (sdlEvent: Sdl2.Event.t, v: t) => {
   switch (sdlEvent) {
   | Sdl2.Event.MouseWheel({deltaX, deltaY, _}) =>
-    log("%%% Mousewheel");
     let wheelEvent: Events.mouseWheelEvent = {
       deltaX: float_of_int(deltaX),
       deltaY: float_of_int(deltaY),
     };
     Event.dispatch(v.onMouseWheel, wheelEvent);
   | Sdl2.Event.MousePan({deltaX, deltaY, _}) =>
-    log("====Pan of " ++ string_of_int(deltaX) ++ ", " ++ string_of_int(deltaY));
     let wheelEvent: Events.mouseWheelEvent = {
       deltaX: (-1.0) *. (float_of_int(deltaX) /. 7000.0),
       deltaY: (-1.0) *. (float_of_int(deltaY) /. 7000.0),
@@ -345,9 +343,7 @@ let _handleEvent = (sdlEvent: Sdl2.Event.t, v: t) => {
   | Sdl2.Event.WindowLeave(_) => Event.dispatch(v.onMouseLeave, ())
   | Sdl2.Event.WindowExposed(_) => Event.dispatch(v.onExposed, ())
   | Sdl2.Event.Quit => ()
-  | _ => 
-    log("Unknown event recieved");
-    ()
+  | _ => ()
   };
 };
 
