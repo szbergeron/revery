@@ -343,9 +343,7 @@ let _handleEvent = (sdlEvent: Sdl2.Event.t, v: t) => {
   | Sdl2.Event.WindowLeave(_) => Event.dispatch(v.onMouseLeave, ())
   | Sdl2.Event.WindowExposed(_) => Event.dispatch(v.onExposed, ())
   | Sdl2.Event.Quit => ()
-  | _ => 
-    log("Unknown event recieved");
-    ()
+  | _ => ()
   };
 };
 
