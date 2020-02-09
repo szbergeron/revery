@@ -55,7 +55,8 @@
     "reason-sdl2": "^2.10.3014",
     "reason-skia": "github:revery-ui/reason-skia#dae5a5e",
     "revery-text-wrap": "github:revery-ui/revery-text-wrap#005385c",
-    "timber": "*"
+    "timber": "*",
+    "libscroll": "*"
   },
   "resolutions": {
     "@esy-ocaml/libffi": "esy-ocaml/libffi#599bc3567",
@@ -63,7 +64,8 @@
     "yarn-pkg-config": "esy-ocaml/yarn-pkg-config#db3a0b6",
     "esy-cmake": "prometheansacrifice/esy-cmake#2a47392def755",
     "esy-skia": "revery-ui/esy-skia#91b10c9",
-    "timber": "glennsl/timber#ae065bb"
+    "timber": "glennsl/timber#ae065bb",
+    "libscroll": "szbergeron/libscroll-re#2c42947"
   },
   "devDependencies": {
     "ocaml": ">=4.6.0 <4.8.0",

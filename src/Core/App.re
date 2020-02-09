@@ -125,6 +125,7 @@ let initConsole = () =>
   };
 
 let start = (~onIdle=noop, initFunc: appInitFunc) => {
+  Libscroll.libscroll_sanity();
   let appInstance: t = {
     windows: Hashtbl.create(1),
     idleCount: 0,
