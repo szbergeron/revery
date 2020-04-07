@@ -305,7 +305,34 @@ let handleEvent = (sdlEvent: Sdl2.Event.t, v: t) => {
       deltaX: float_of_int(deltaX),
       deltaY: float_of_int(deltaY),
     };
-    Event.dispatch(v.onMouseWheel, wheelEvent);
+    //Event.dispatch(v.onMouseWheel, wheelEvent);
+  | Sdl2.Event.Pan({timestamp, source, axis, action}) => {
+      //Log.infof(m => m("Detected pan event with source "
+      Log.info("Pan detected...");
+      open Sdl2.WheelType;
+      switch (source) {
+        | Last => Log.info("Pan source last")
+        | Undefined => Log.info("Pan source undefined")
+        | Touchscreen => Log.info("Pan source touchscreen")
+        | Touchpad => Log.info("Pan source touchpad")
+        | Wheel => Log.info("Pan source wheel")
+        | WheelPrecise => Log.info("Pan source precise wheel")
+        | OtherKinetic => Log.info("Pan source other, kinetic")
+        | OtherNonKinetic => Log.info("Pan source other, nonkinetic");
+      };
+      switch (action) {
+        | Sdl2.Event.PanElements.Interrupt => Log.infof(m => m("Interrupt at time %d", timestamp))
+        | Sdl2.Event.PanElements.Fling => Log.infof(m => m("Fling at time %d", timestamp))
+        | Sdl2.Event.PanElements.Pan(delta) => {
+            Log.infof(m => m("Pan at time %d with delta %f", timestamp, delta));
+
+            switch(axis) {
+                | Sdl2.Axis.Vertical => Event.dispatch(v.onMouseWheel, {deltaX: 0.0, deltaY: delta *. 1000.})
+                | Sdl2.Axis.Horizontal => () //Event.dispatch(v.onMouseWheel, {deltaX: delta /. 200., deltaY: 0.0})
+            }
+        }
+      };
+    }
   | Sdl2.Event.MouseMotion({x, y, _}) =>
     let mouseEvent: Events.mouseMoveEvent = {
       mouseX: float_of_int(x),

@@ -247,6 +247,7 @@ let handleCapture = (event: event) => {
       onMouseUp(evt);
       true;
     | MouseWheel(evt) =>
+      Log.info("Got a mouse wheel event");
       onMouseWheel(evt);
       true;
     | MouseEnter(evt) =>

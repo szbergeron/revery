@@ -4,6 +4,7 @@ open Revery_UI.Transform;
 open Revery_UI_Primitives;
 
 module Hooks = Revery_UI_Hooks;
+module Log = (val Log.withNamespace("Revery.UI.Components.Scrollview"));
 
 type bouncingState =
   | Bouncing(int)
@@ -50,6 +51,11 @@ let%component make =
                 ~children=React.empty,
                 (),
               ) => {
+  let initialUnrealizedXDelta = 0.0;
+  let%hook (unrealizedXDelta, setUnrealizedXDelta) = Hooks.state(initialUnrealizedXDelta);
+  let initialUnrealizedYDelta = 0.0;
+  let%hook (unrealizedYDelta, setUnrealizedYDelta) = Hooks.state(initialUnrealizedYDelta);
+
   let%hook (actualScrollTop, dispatch) =
     Hooks.reducer(~initialState=scrollTop, reducer);
   let%hook (outerRef: option(Revery_UI.node), setOuterRef) =
@@ -156,7 +162,22 @@ let%component make =
           : empty;
 
       let scroll = (wheelEvent: NodeEvents.mouseWheelEventParams) => {
-        let delta = int_of_float(wheelEvent.deltaY *. 25.);
+        //let minimumScrollDeltaIncrements = 1.;
+
+        let applicableDelta = {
+            let currentTotal = (wheelEvent.deltaY +. unrealizedYDelta) /. 50.;
+            let realizableDelta = int_of_float(currentTotal);
+
+            setUnrealizedYDelta(_ => currentTotal -. float_of_int(realizableDelta));
+
+            Log.infof(m => m("applicableDelta becomes %d while unrealized is %f", realizableDelta, currentTotal -. float_of_int(realizableDelta)));
+
+            realizableDelta
+        };
+
+        let delta = applicableDelta;
+
+        //let delta = int_of_float(wheelEvent.deltaY *. 25.);
         let newScrollTop = actualScrollTop - delta;
 
         let isAtTop = newScrollTop < 0;
